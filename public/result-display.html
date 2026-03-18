@@ -246,19 +246,23 @@
 
         .contact-line {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
             margin-bottom: 8px;
-            font-size: 12px;
+            font-size: 11px;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         @media (min-width: 600px) {
             .contact-line {
-                flex-direction: row;
-                justify-content: center;
                 gap: 20px;
                 font-size: 14px;
+                overflow-x: visible;
             }
         }
 
@@ -415,13 +419,22 @@
             }
 
             .contact-line {
-                font-size: 10px;
-                gap: 10px;
+                font-size: 9px;
+                gap: 8px;
+                justify-content: center;
+                flex-wrap: nowrap;
+                white-space: nowrap;
             }
 
             .contact-item img {
-                width: 12px;
-                height: 12px;
+                width: 10px;
+                height: 10px;
+            }
+
+            .address {
+                font-size: 8px;
+                padding: 0 5px;
+                line-height: 1.2;
             }
 
             .btn {

@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Result Management System</title>
+    <style>
+        body {
+            font-family: Calibri, Arial, Helvetica, sans-serif;
+            margin: 24px;
+            color: #111;
+            background: #fff;
+            align-items: center;
+        }
+
+        .container {
+            border: 1px solid #dcdcdc;
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 18px 22px;
+        }
+
+        .brand {
+            text-align: center;
+        }
+
+        .brand .header-img {
+            max-width: 360px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 6px;
+        }
+
+        .report-title {
+            text-align: center;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .term-field {
+            text-align: center;
+            font-weight: bold;
+            margin: 10px 0 15px;
+            font-size: 14px;
+        }
+
+        .section-heading {
+            font-weight: 700;
+            margin: 8px 0 6px;
+        }
+
+        .hr {
+            height: 1px;
+            background: #111;
+            margin: 4px 0 12px;
+        }
+
+        .top {
+            display: grid;
+            grid-template-columns: 1fr 120px;
+            gap: 14px;
+            align-items: start;
+        }
+
+        .photo {
+            width: 120px;
+            height: 120px;
+            border: 1px solid #111;
+            background: #0b5a7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 14px;
+            font-size: 12px;
+        }
+
+        .kv {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            align-items: center;
+        }
+
+        .kv label {
+            font-size: 12px;
+            color: #000;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 4px 6px;
+            border: 1px dotted #777;
+            font-size: 13px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        table.card {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
+            border: 2px solid #111;
+            table-layout: fixed;
+        }
+
+        table.card th,
+        table.card td {
+            border: 1px #777;
+            padding: 6px 8px;
+            text-align: center;
+        }
+
+        table.card th+th,
+        table.card td+td {
+            border-left: 1px solid #111;
+        }
+
+        table.card td:last-child {
+            border-top: none;
+            border-bottom: none;
+        }
+
+        table.card td:nth-child(3) input,
+        table.card td:last-child input {
+            border: none;
+            width: 100%;
+            padding: 4px 0;
+            background: transparent;
+            text-align: center;
+            display: block;
+            margin: 0 auto;
+            font-size: 13px;
+            font-weight: normal;
+        }
+
+        table.card td:nth-child(3) input:focus,
+        table.card td:last-child input:focus {
+            outline: none;
+        }
+
+        table.card thead th {
+            border-bottom: 1px solid #111;
+            text-align: center;
+        }
+
+        table.card td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table.card td label {
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+
+        table.card td input {
+            text-align: center;
+        }
+
+        table.card th {
+            background: #f5f5f5;
+        }
+
+        .row-actions {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 8px;
+            justify-content: flex-start;
+            margin-top: 12px;
+            overflow-x: auto;
+            padding: 6px 0;
+            white-space: nowrap;
+            min-height: 48px;
+            align-items: center;
+        }
+
+        .row-actions button {
+            flex: 1 1 auto;
+            min-width: 100px;
+            white-space: nowrap;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: 1px solid #1f2937;
+            background: #1f2937;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button.secondary {
+            background: white;
+            color: #1f2937;
+        }
+
+        .muted {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #status-message {
+            margin-top: 16px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            clear: both;
+        }
+
+        .remarks-input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px dotted #777;
+            padding: 4px 0;
+            background: transparent;
+            font-size: 13px;
+        }
+
+        .signature-line {
+            border-bottom: 1px dotted #777;
+            height: 20px;
+        }
+
+        .photo-label {
+            display: block;
+            text-align: center;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #1f2937;
+            cursor: pointer;
+        }
+
+        .principal-sign {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .principal-sign img {
+            width: 150px;
+            height: auto;
+        }
+
+        .footer {
+            position: relative;
+            cursor: move;
+            -webkit-user-select: none;
+            user-select: none;
+            transition: opacity 0.2s;
+        }
+
+        .footer:hover {
+            opacity: 0.9;
+        }
+
+        .footer.dragging {
+            opacity: 0.7;
+            cursor: grabbing;
+        }
+
+        .footer::before {
+            content: "⋮⋮ Drag to reposition";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #999;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .footer:hover::before {
+            opacity: 1;
+        }
+
+        @media print {
+            .footer {
+                cursor: default !important;
+            }
+
+            .footer::before {
+                display: none !important;
+            }
+        }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0 !important;
+            }
+
+            html,
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                overflow: hidden !important;
+                background: white !important;
+            }
+
+            .container {
+                border: none !important;
+                padding: 0 12mm !important;
+                margin: 0 auto !important;
+                width: 186mm !important;
+                max-width: none !important;
+                box-sizing: border-box !important;
+            }
+
+            .no-print,
+            .row-actions,
+            input[type="file"],
+            .photo-label,
+            #status-message,
+            #files-note {
+                display: none !important;
+            }
+
+            .footer {
+                position: relative !important;
+                cursor: default !important;
+                /* Position will be preserved from saved localStorage values */
+            }
+
+            input,
+            textarea {
+                border: none !important;
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+
+            table.card {
+                border: 2px solid #111 !important;
+                background: transparent !important;
+            }
+
+            table.card th {
+                background: transparent !important;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            input[type=number]::-webkit-outer-spin-button,
+            input[type=number]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+    </style>
+    <script>
+        // === TOTAL MARKS PER CLASS ===
+        const MARKS = {
+            1: {
+                default: 50,
+                Nazra: 20
+            },
+            2: {
+                default: 50,
+                Nazra: 20
+            },
+            3: {
+                default: 50,
+                Nazra: 20
+            },
+            4: {
+                default: 50,
+                Nazra: 20
+            },
+            5: {
+                default: 50,
+                Nazra: 20
+            },
+            6: {
+                default: 50,
+                Nazra: 20
+            },
+            7: {
+                default: 50,
+                Nazra: 20
+            },
+            8: {
+                default: 50,
+                Physics: 50,
+                Chemistry: 50,
+                Computer: 50,
+                PakistanStudies: 50,
+                Islamiat: 50,
+                Tarjama: 50
+            },
+            9: {
+                default: 50,
+                Physics: 50,
+                Chemistry: 50,
+                Computer: 50,
+                PakistanStudies: 50,
+                Islamiat: 50,
+                Tarjama: 50
+            },
+            10: {
+                default: 50,
+                Physics: 50,
+                Chemistry: 50,
+                Computer: 50,
+                PakistanStudies: 50,
+                Islamiat: 50
+            },
+            11: {
+                default: 50,
+                PakistanStudies: 50,
+                Islamiat: 50,
+                Tarjama: 50
+            }
+        };
+
+        let fetchedTotals = null;
+
+        async function fetchTotals(classInput) {
+            if (!classInput) {
+                fetchedTotals = null;
+                return;
+            }
+            try {
+                const res = await fetch(`/totals/${encodeURIComponent(classInput)}`);
+                if (res.ok) {
+                    fetchedTotals = await res.json();
+                } else {
+                    fetchedTotals = null;
+                }
+            } catch (e) {
+                console.error('Error fetching totals:', e);
+                fetchedTotals = null;
+            }
+        }
+
+        function getSubjectConfig(classInput) {
+            const classStr = String(classInput).trim();
+            const num = parseInt(classStr);
+            const marks = MARKS[num] || {
+                default: 75
+            };
+
+            // Pre-K and Playgroup
+            if (["Prep", "KG-II", "Nursery", "P.G", "K.G-II", "0"].includes(classStr)) {
+                return [{
+                        display: "English (Oral)",
+                        field: "EnglishOral",
+                        max: 20
+                    },
+                    {
+                        display: "English (Written)",
+                        field: "English",
+                        max: 30
+                    },
+                    {
+                        display: "Math (Oral)",
+                        field: "MathOral",
+                        max: 20
+                    },
+                    {
+                        display: "Math (Written)",
+                        field: "Math",
+                        max: 30
+                    },
+                    {
+                        display: "Urdu (Oral)",
+                        field: "UrduOral",
+                        max: 20
+                    },
+                    {
+                        display: "Urdu (Written)",
+                        field: "Urdu",
+                        max: 30
+                    },
+                    {
+                        display: "General Knowledge",
+                        field: "GeneralKnowledge",
+                        max: 10
+                    },
+                    {
+                        display: "Drawing",
+                        field: "Drawing",
+                        max: 20
+                    },
+                    {
+                        display: "Quran Pak",
+                        field: "Nazra",
+                        max: 20
+                    }
+                ];
+            }
+
+            // Classes 1–7
+            if (num >= 1 && num <= 7) {
+                if (num <= 3) {
+                    return [{
+                            display: "Nazra",
+                            field: "Nazra",
+                            max: 50
+                        },
+                        {
+                            display: "English",
+                            field: "English",
+                            max: marks.default
+                        },
+                        {
+                            display: "Urdu",
+                            field: "Urdu",
+                            max: marks.default
+                        },
+                        {
+                            display: "Mathematics",
+                            field: "Math",
+                            max: marks.default
+                        },
+                        {
+                            display: "Computer",
+                            field: "Computer",
+                            max: marks.default
+                        },
+                        {
+                            display: "General Knowledge",
+                            field: "GeneralKnowledge",
+                            max: marks.default
+                        },
+                        {
+                            display: "Islamyat",
+                            field: "Islamiat",
+                            max: marks.default
+                        },
+
+                    ];
+                }
+                if (num <= 5) {
+                    return [{
+                            display: "Nazra",
+                            field: "Nazra",
+                            max: 50
+                        },
+                        {
+                            display: "English",
+                            field: "English",
+                            max: marks.default
+                        },
+                        {
+                            display: "Urdu",
+                            field: "Urdu",
+                            max: marks.default
+                        },
+                        {
+                            display: "Mathematics",
+                            field: "Math",
+                            max: marks.default
+                        },
+                        {
+                            display: "Computer",
+                            field: "Computer",
+                            max: marks.default
+                        },
+                        {
+                            display: "Science",
+                            field: "Science",
+                            max: marks.default
+                        },
+                        {
+                            display: "Social Studies",
+                            field: "Sst",
+                            max: marks.default
+                        },
+                        {
+                            display: "Islamyat",
+                            field: "Islamiat",
+                            max: marks.default
+                        },
+
+                    ];
+                }
+                return [{
+                        display: "English",
+                        field: "English",
+                        max: marks.default
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: marks.default
+                    },
+                    {
+                        display: "Mathematics",
+                        field: "Math",
+                        max: marks.default
+                    },
+                    {
+                        display: "Science",
+                        field: "Science",
+                        max: marks.default
+                    },
+                    {
+                        display: "Computer",
+                        field: "Computer",
+                        max: marks.default
+                    },
+                    {
+                        display: "Geography",
+                        field: "Geography",
+                        max: marks.default
+                    },
+                    {
+                        display: "Islamyat",
+                        field: "Islamiat",
+                        max: marks.default
+                    },
+                    {
+                        display: "Nazra",
+                        field: "Nazra",
+                        max: 50
+                    },
+                ];
+            }
+
+            // Arts Group - Grade 8, 9, 10
+            if (classStr.toLowerCase().includes("art")) {
+                const config = [{
+                        display: "English",
+                        field: "English",
+                        max: marks.default
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: marks.default
+                    },
+                    {
+                        display: "Genral Math",
+                        field: "GenralMath",
+                        max: marks.default
+                    },
+                    {
+                        display: "Genral Science",
+                        field: "GenralScience",
+                        max: marks.default
+                    },
+                    {
+                        display: "Islamiat Elective",
+                        field: "IslamiatElective",
+                        max: marks.default
+                    },
+                    {
+                        display: "Homecnomics",
+                        field: "Homeconomics",
+                        max: marks.default
+                    },
+                ];
+
+                if (num === 8 || num === 9) {
+                    config.push({
+                        display: "Islamyat",
+                        field: "Islamiat",
+                        max: marks.Islamiat || marks.default
+                    });
+                    config.push({
+                        display: "Tarjama-tul-Quran",
+                        field: "Tarjama",
+                        max: marks.Tarjama || 50
+                    });
+                } else if (num === 10) {
+
+                    config.push({
+                        display: "Pakistan Studies",
+                        field: "PakistanStudies",
+                        max: marks.PakistanStudies || marks.default
+                    });
+                }
+                return config;
+            }
+
+            // Science Group - Grade 8, 9, 10
+            if (num === 8 || num === 9 || num === 10) {
+                const config = [{
+                        display: "English",
+                        field: "English",
+                        max: marks.default
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: marks.default
+                    },
+                    {
+                        display: "Mathematics",
+                        field: "Math",
+                        max: marks.default
+                    },
+                    {
+                        display: "Computer/Biology",
+                        field: "Computer",
+                        max: marks.Computer || marks.default
+                    },
+                    {
+                        display: "Chemistry",
+                        field: "Chemistry",
+                        max: marks.Chemistry || marks.default
+                    },
+                    {
+                        display: "Physics",
+                        field: "Physics",
+                        max: marks.Physics || marks.default
+                    },
+                ];
+
+                if (num === 8 || num === 9) {
+                    config.push({
+                        display: "Islamyat",
+                        field: "Islamiat",
+                        max: marks.Islamiat || marks.default
+                    });
+                    config.push({
+                        display: "Tarjama-tul-Quran",
+                        field: "Tarjama",
+                        max: marks.Tarjama || 50
+                    });
+                } else if (num === 10) {
+                    config.push({
+                        display: "Pakistan Studies",
+                        field: "PakistanStudies",
+                        max: marks.PakistanStudies || marks.default
+                    });
+                }
+                return config;
+            }
+            if (classStr === "Tehfeez-ul-Quran") {
+                return [{
+                        display: "English",
+                        field: "English",
+                        max: 50
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: 50
+                    },
+                    {
+                        display: "Mathematics",
+                        field: "Math",
+                        max: 100
+                    },
+                    {
+                        display: "Nazra",
+                        field: "Nazra",
+                        max: 50
+                    },
+                    {
+                        display: "Tajveed",
+                        field: "Tajveed",
+                        max: 50
+                    },
+                ];
+            }
+
+            // Class 11 (overriding previous fallback for 11)
+            if (classStr === "11" || classStr === "12") {
+                return [{
+                        display: "English",
+                        field: "English",
+                        max: marks.default
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: marks.default
+                    },
+                    {
+                        display: "Mathematics",
+                        field: "Math",
+                        max: marks.default
+                    },
+                    {
+                        display: "Computer",
+                        field: "Computer",
+                        max: marks.default
+                    },
+                    {
+                        display: "Statistics",
+                        field: "Statistics",
+                        max: marks.default
+                    },
+
+                    {
+                        display: "Islamyat",
+                        field: "Islamiat",
+                        max: marks.Islamiat || 50
+                    },
+                    {
+                        display: "Tarjama-tul-Quran",
+                        field: "Tarjama",
+                        max: marks.Tarjama || 50
+                    }
+
+                ];
+            }
+
+            // Default / fallback (for any other class)
+            const config = [{
+                    display: "English",
+                    field: "English",
+                    max: marks.default
+                },
+                {
+                    display: "Urdu",
+                    field: "Urdu",
+                    max: marks.default
+                },
+                {
+                    display: "Genral Math",
+                    field: "GenralMath",
+                    max: marks.default
+                },
+                {
+                    display: "Genral Science",
+                    field: "GenralScience",
+                    max: marks.default
+                },
+                {
+                    display: "Islamiat Elective",
+                    field: "IslamiatElective",
+                    max: marks.default
+                },
+                {
+                    display: "Homecnomics",
+                    field: "Homeconomics",
+                    max: marks.default
+                },
+                {
+                    display: "Islamyat",
+                    field: "Islamiat",
+                    max: marks.Islamiat || marks.default
+                },
+            ];
+            if (num <= 9) config.push({
+                display: "Tarjama-tul-Quran",
+                field: "Tarjama",
+                max: marks.Tarjama || 50
+            });
+            if (num > 9) config.push({
+                display: "Pakistan Studies",
+                field: "PakistanStudies",
+                max: marks.PakistanStudies || marks.default
+            });
+
+            return config;
+        }
+
+
+        async function renderSubjects(classInput, studentData = null) {
+            const tbody = document.getElementById('subjects-tbody');
+            tbody.innerHTML = '';
+
+            // Fetch totals from Excel if class changed or not yet fetched
+            await fetchTotals(classInput);
+
+            const config = getSubjectConfig(classInput);
+
+            config.forEach((sub, index) => {
+                const fieldId = `marks-${sub.field}`;
+                const capId = `cap-${sub.field}`;
+
+                // Use fetched total if available, otherwise use config.max (which comes from MARKS object)
+                let totalMarks = sub.max;
+                if (fetchedTotals && fetchedTotals[sub.field] !== undefined && fetchedTotals[sub.field] !== '') {
+                    totalMarks = Number(fetchedTotals[sub.field]);
+                }
+
+                let obtained = '';
+                if (studentData && studentData[sub.field] !== undefined && studentData[sub.field] !== '') {
+                    const value = String(studentData[sub.field]).trim();
+                    // Only show 'A' if explicitly marked 'A' in Excel (case-insensitive)
+                    if (value.toUpperCase() === 'A') {
+                        obtained = 'A';
+                    } else {
+                        // Try to parse as number, if not valid, keep original value
+                        const numVal = Number(value);
+                        obtained = Number.isFinite(numVal) ? numVal : value;
+                    }
+                }
+                // If field is empty in Excel, keep it empty (don't show 'A')
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td><label for="${fieldId}">${sub.display}</label></td>
+          <td><input id="${capId}" class="cap" type="text" value="${totalMarks}" title="Total marks for ${sub.display}" /></td>
+          <td><input id="${fieldId}" name="${sub.field}" type="text" value="${obtained}" title="Obtained marks for ${sub.display}" /></td>
+        `;
+                tbody.appendChild(tr);
+            });
+
+            const totalTr = document.createElement('tr');
+            totalTr.innerHTML = `
+        <td></td>
+        <td><hr style="margin-top:0px"><strong>Total</strong></td>
+        <td><input id="MaxMarks" type="text" readonly title="Total maximum marks" /></td>
+        <td><input id="Total" name="Total" type="text" readonly title="Total obtained marks" /></td>
+      `;
+            tbody.appendChild(totalTr);
+            calc();
+        }
+
+        function showStatus(msg, type) {
+            const el = document.getElementById('status-message');
+            el.textContent = msg;
+            el.style.backgroundColor = type === 'success' ? '#d4edda' : type === 'warning' ? '#fff3cd' : '#f8d7da';
+            el.style.color = type === 'success' ? '#155724' : type === 'warning' ? '#856404' : '#721c24';
+        }
+
+        async function clearForm() {
+            document.getElementById('card-form').reset();
+            document.getElementById('photoPreview').src = '';
+            const classNum = document.getElementById('Class').value;
+            await renderSubjects(classNum);
+            showStatus('Form cleared – ready for new student', 'success');
+        }
+
+        function setLoading(isLoading) {
+            document.querySelectorAll('button').forEach(b => b.disabled = isLoading);
+        }
+
+        function calc() {
+            const rows = Array.from(document.querySelectorAll('table.card tbody tr'));
+            let obtainedTotal = 0,
+                maxTotal = 0;
+            let passedAll = true;
+
+            rows.slice(0, -1).forEach(tr => {
+                const capInput = tr.querySelector('td:nth-child(3) input');
+                const cap = capInput ? Math.max(0, Number(capInput.value) || 0) : 0;
+                maxTotal += cap;
+
+                const input = tr.querySelector('td:last-child input');
+                let val = 0;
+                if (input) {
+                    const inputValue = String(input.value).trim();
+                    // If value is 'A' (case-insensitive) or empty, treat as absent (0 marks)
+                    if (inputValue.toUpperCase() === 'A' || inputValue === '') {
+                        val = 0;
+                        // Don't change empty to 'A' - allow manual editing
+                    } else {
+                        val = Number(inputValue);
+                        if (!Number.isFinite(val)) val = 0;
+                        // Clamp numeric values to valid range
+                        const clamped = Math.max(0, Math.min(cap, val));
+                        if (clamped !== val) {
+                            input.value = clamped;
+                            val = clamped;
+                        }
+                    }
+                }
+                const clamped = val;
+                obtainedTotal += clamped;
+
+                if (cap > 0) {
+                    const subjPerc = (clamped / cap) * 100;
+                    if (subjPerc < 40) passedAll = false;
+                }
+            });
+
+            const maxEl = document.getElementById('MaxMarks');
+            if (maxEl) maxEl.value = maxTotal;
+            document.getElementById('Total').value = obtainedTotal;
+
+            const percentage = maxTotal > 0 ? (obtainedTotal / maxTotal) * 100 : 0;
+            document.getElementById('Percentage').value = percentage.toFixed(2);
+
+            let grade = 'F';
+            if (passedAll) {
+                if (percentage >= 80) grade = 'A+';
+                else if (percentage >= 70) grade = 'A';
+                else if (percentage >= 60) grade = 'B';
+                else if (percentage >= 50) grade = 'C';
+                else if (percentage >= 40 && percentage <= 49) grade = 'D';
+
+
+            } else {
+                grade = 'F';
+            }
+
+            document.getElementById('Grade').value = grade;
+        }
+
+        async function loadByRoll() {
+            const roll = document.getElementById('RollNo').value.trim();
+            if (!roll) {
+                alert('Please enter USIS ID / Roll No first');
+                return;
+            }
+            setLoading(true);
+            showStatus('Loading student data...', 'warning');
+            try {
+                const res = await fetch(`/student/${encodeURIComponent(roll)}`);
+                if (!res.ok) {
+                    showStatus('Student not found – ready to add new student', 'warning');
+                    clearForm();
+                    document.getElementById('RollNo').value = roll;
+                    return;
+                }
+                const s = await res.json();
+                ['Name', 'Class', 'FatherName', 'Session', 'Semester', 'Remarks', 'Term', 'AdmissionDate'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = s[id] || '';
+                });
+                document.getElementById('RollNo').value = roll;
+                await renderSubjects(s.Class || 0, s);
+                if (s.ImagePath) {
+                    document.getElementById('photoPreview').src = s.ImagePath + '?t=' + Date.now();
+                    document.getElementById('ImagePath').value = s.ImagePath;
+                } else {
+                    document.getElementById('photoPreview').src = '';
+                    document.getElementById('ImagePath').value = '';
+                }
+                showStatus('Student loaded successfully', 'success');
+            } catch (e) {
+                showStatus('Error loading student', 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function onPhotoChange(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            document.getElementById('photoPreview').src = url;
+        }
+
+        async function saveData(showAlert = true) {
+            const fd = new FormData(document.getElementById('card-form'));
+            setLoading(true);
+            try {
+                const res = await fetch('/save', {
+                    method: 'POST',
+                    body: fd
+                });
+                const j = await res.json();
+                if (!res.ok || !j.ok) throw new Error(j.error || 'Save failed');
+                if (showAlert) {
+                    alert('Saved successfully');
+                    showStatus('Saved to Excel successfully', 'success');
+                }
+                return j;
+            } catch (e) {
+                if (showAlert) alert(e.message || 'Save failed');
+                throw e;
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function downloadDoc() {
+            const rollVal = document.getElementById('RollNo').value.trim();
+            if (!rollVal) {
+                alert('Enter Roll No first');
+                return;
+            }
+            try {
+                await saveData(false);
+            } catch (_) {}
+            const fd = new FormData();
+            fd.append('roll', rollVal);
+            const res = await fetch('/generate', {
+                method: 'POST',
+                body: fd
+            });
+            if (!res.ok) {
+                const j = await res.json().catch(() => ({}));
+                alert(j.error || 'DOCX generation failed');
+                return;
+            }
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Result_${rollVal}.docx`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        async function downloadPdf() {
+            const rollVal = document.getElementById('RollNo').value.trim();
+            if (!rollVal) {
+                alert('Enter Roll No first');
+                return;
+            }
+            try {
+                await saveData(false);
+            } catch (_) {}
+            const fd = new FormData();
+            fd.append('roll', rollVal);
+            const res = await fetch('/generate-pdf', {
+                method: 'POST',
+                body: fd
+            });
+            if (!res.ok) {
+                const j = await res.json().catch(() => ({}));
+                alert(j.error || 'PDF generation failed');
+                return;
+            }
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Result_${rollVal}.pdf`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function printCard() {
+            // Ensure footer position is applied before printing
+            const footer = document.querySelector('.footer');
+            if (footer) {
+                const savedPos = localStorage.getItem('footerPosition');
+                if (savedPos) {
+                    try {
+                        const pos = JSON.parse(savedPos);
+                        if (pos.marginTop) footer.style.marginTop = pos.marginTop;
+                        if (pos.marginLeft) footer.style.marginLeft = pos.marginLeft;
+                        if (pos.marginRight) footer.style.marginRight = pos.marginRight;
+                        footer.style.position = 'relative';
+                    } catch (e) {
+                        console.error('Error applying footer position for print:', e);
+                    }
+                }
+            }
+
+            document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
+            document.querySelector('.container').style.border = 'none';
+            document.querySelector('.container').style.padding = '10px';
+
+            window.print();
+
+            setTimeout(() => {
+                document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
+                document.querySelector('.container').style.border = '';
+                document.querySelector('.container').style.padding = '';
+            }, 100);
+        }
+
+        function openDonorCard() {
+            const form = document.getElementById('card-form');
+            const data = {};
+            new FormData(form).forEach((v, k) => data[k] = v);
+
+            // If ImagePath is set in hidden field, ensure it's in data
+            const existingPhoto = document.getElementById('ImagePath').value;
+            if (existingPhoto) data.ImagePath = existingPhoto;
+
+            const win = window.open('donor-card.html?roll=' + encodeURIComponent(data.roll || ''), '_blank');
+            win.studentData = data;
+            win.getSubjectConfig = getSubjectConfig;
+        }
+
+        // === FOOTER DRAG FUNCTIONALITY ===
+        function initFooterDrag() {
+            const footer = document.querySelector('.footer');
+            if (!footer) return;
+
+            // Load saved position from localStorage
+            const savedPos = localStorage.getItem('footerPosition');
+            if (savedPos) {
+                try {
+                    const pos = JSON.parse(savedPos);
+                    if (pos.marginTop) footer.style.marginTop = pos.marginTop;
+                    if (pos.marginLeft) footer.style.marginLeft = pos.marginLeft;
+                    if (pos.marginRight) footer.style.marginRight = pos.marginRight;
+                } catch (e) {
+                    console.error('Error loading footer position:', e);
+                }
+            }
+
+            let isDragging = false;
+            let startX, startY, startMarginTop, startMarginLeft;
+
+            footer.addEventListener('mousedown', (e) => {
+                // Don't drag if clicking on links or images
+                if (e.target.tagName === 'IMG' || e.target.tagName === 'A' || e.target.closest('a')) return;
+
+                isDragging = true;
+                footer.classList.add('dragging');
+
+                const container = document.querySelector('.container');
+                const containerRect = container.getBoundingClientRect();
+                const footerRect = footer.getBoundingClientRect();
+
+                startX = e.clientX;
+                startY = e.clientY;
+
+                // Get current margins
+                const computedStyle = window.getComputedStyle(footer);
+                startMarginTop = parseInt(computedStyle.marginTop) || 0;
+                startMarginLeft = parseInt(computedStyle.marginLeft) || 0;
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+
+                const container = document.querySelector('.container');
+                const containerRect = container.getBoundingClientRect();
+
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+
+                // Calculate new margins relative to container
+                const newMarginTop = startMarginTop + deltaY;
+                const newMarginLeft = startMarginLeft + deltaX;
+
+                footer.style.marginTop = Math.max(0, newMarginTop) + 'px';
+                footer.style.marginLeft = Math.max(0, newMarginLeft) + 'px';
+                footer.style.marginRight = 'auto';
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                footer.classList.remove('dragging');
+
+                // Save position to localStorage
+                const computedStyle = window.getComputedStyle(footer);
+                const position = {
+                    marginTop: computedStyle.marginTop,
+                    marginLeft: computedStyle.marginLeft,
+                    marginRight: computedStyle.marginRight
+                };
+
+                localStorage.setItem('footerPosition', JSON.stringify(position));
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            await renderSubjects(0);
+            document.getElementById('Class').addEventListener('change', async () => {
+                const val = document.getElementById('Class').value;
+                await renderSubjects(val);
+            });
+
+            // Initialize footer drag functionality
+            initFooterDrag();
+
+            // Handle URL parameters for auto-loading and printing
+            const urlParams = new URLSearchParams(window.location.search);
+            const rollParam = urlParams.get('roll');
+            const modeParam = urlParams.get('mode');
+
+            if (rollParam) {
+                document.getElementById('RollNo').value = rollParam;
+                await loadByRoll();
+
+                if (modeParam === 'print') {
+                    // Give a small delay for images to load before printing
+                    setTimeout(() => {
+                        printCard();
+                    }, 1000);
+                }
+            }
+
+            const note = document.getElementById('files-note');
+            fetch('/debug/paths', {
+                cache: 'no-store'
+            }).then(res => res.json()).then(j => {
+                if (j.dataExists && j.templateExists) {
+                    note.textContent = 'Files detected: Excel and Template are available.';
+                    note.style.color = '#10b981';
+                } else {
+                    const missing = [];
+                    if (!j.dataExists) missing.push('data Excel file');
+                    if (!j.templateExists) missing.push('template DOCX');
+                    note.innerHTML = 'Missing ' + missing.join(' and ') + '. Place files at <code>/data/class.xlsx</code> and <code>/templates/Result Template.docx</code>.';
+                    note.style.color = '#ef4444';
+                }
+            }).catch(() => {
+                note.textContent = 'Could not verify files. The app may still work if files are placed correctly.';
+                note.style.color = '#6b7280';
+            });
+        });
+
+        document.getElementById('excelUpload').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const fd = new FormData();
+            fd.append('excel', file);
+
+            const btn = this.nextElementSibling;
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Uploading...';
+
+            try {
+                const res = await fetch('/upload-excel', {
+                    method: 'POST',
+                    body: fd
+                });
+                const j = await res.json();
+                alert(j.ok ? j.message : 'Error: ' + (j.error || 'Unknown'));
+            } catch (err) {
+                alert('Upload failed: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+                e.target.value = '';
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div><br></div>
+        <div class="brand">
+            <img src="Picture1.jpg" alt="School Header" class="header-img" />
+        </div>
+        <div class="report-title">Progress Report</div>
+
+        <form id="card-form" oninput="calc()">
+            <input type="hidden" id="ImagePath" name="ImagePath" />
+            <div class="section-heading">Student Info:</div>
+            <hr style="background: #000 !important; height: 1px !important; margin: 8px 0 !important;">
+            <div class="top">
+                <div>
+                    <div class="grid2">
+                        <div class="kv"><label for="RollNo" style="font-weight: bold; ">USS ID:</label><input id="RollNo" name="roll" type="text" required title="USIS ID / Roll Number" /></div>
+                        <div class="kv"><label for="Name" style="font-weight: bold;">Student Name:</label><input id="Name" name="name" type="text" title="Student Name" /></div>
+                        <div class="kv"><label for="Class" style="font-weight: bold;">Class:</label><input id="Class" name="class" type="text" title="Class" /></div>
+                        <div class="kv"><label for="Session" style="font-weight: bold; font-size:12px">Session:</label><input id="Session" name="session" type="text" /></div>
+                        <div class="kv"><label for="Term" style="font-weight: bold; ">Term:</label><input id="Term" name="Term" type="text" title="Term" /></div>
+                        <div class="kv"><label for="AdmissionDate" style="font-weight: bold;">Admission Date:</label><input id="AdmissionDate" name="AdmissionDate" type="text" title="Admission Date" /></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="photo"><img id="photoPreview" alt="Student Photo" /></div>
+                    <label for="studentPhoto" class="photo-label">Upload Photo</label>
+                    <input id="studentPhoto" name="photo" type="file" accept="image/*" onchange="onPhotoChange(event)" title="Upload student photo" />
+                </div>
+            </div>
+
+            <div class="report-title">Scores</div>
+            <table class="card">
+                <colgroup>
+                    <col style="width:8%" />
+                    <col style="width:42%" />
+                    <col style="width:22%" />
+                    <col style="width:28%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>S.NO</th>
+                        <th>Subjects</th>
+                        <th>Total Marks</th>
+                        <th>Obtained Marks</th>
+                    </tr>
+                </thead>
+                <tbody id="subjects-tbody"></tbody>
+            </table>
+            <div><br><br></div>
+            <br>
+            <div class="grid2">
+
+                <div class="kv"><label for="Percentage" style="font-weight: bold;">Percentage:</label><input id="Percentage" name="Percentage" type="text" readonly title="Percentage" /></div>
+                <div class="kv"><label for="Grade" style="font-weight: bold;">Grade:</label><input id="Grade" name="Grade" type="text" readonly title="Grade" /></div>
+            </div>
+
+            <div class="grid2" style="gap:8px 14px; margin-top:10px;">
+                <div class="kv" style="grid-column: 1 / span 2;">
+                    <label for="Remarks" style="font-weight: bold;">Remarks:</label>
+                    <input id="Remarks" name="remarks" type="text" class="remarks-input" title="Remarks" />
+                </div>
+            </div>
+
+            <!-- Principal Signature with Image -->
+            <div class="grid2" style="margin-top:8px; gap:8px 14px;">
+                <div class="kv">
+                    <label style="font-weight: bold;">Teacher's Sign:</label>
+                    <div class="signature-line"></div>
+                </div>
+                <div class="kv">
+                    <label style="font-weight:bold ;">Principal's Sign:</label>
+                    <div class="principal-sign">
+                        <img src="sign.PNG" alt="Principal Signature" />
+                        <div class="signature-line"></div>
+                    </div>
+                </div>
+            </div>
+            <div><br></div>
+
+            <div><br></div>
+
+            <div><br></div>
+
+            <div><br></div>
+
+            <div><br></div>
+
+
+            <div class="footer" style="margin-top: 25px; text-align: center; font-size: 16px; color: #b7b1b1; line-height: 1.6;">
+                <!-- Top Blue Line -->
+
+                <!-- Contact Line -->
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: nowrap; margin-bottom: 6px; font-weight: 500;">
+                    <span style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1280px-Facebook_f_logo_%282019%29.svg.png" alt="FB" style="width:16px; height:16px;">
+                        /Uniqueschoolsystem1
+                    </span>
+                    <p> </p>
+                    <p> </p>
+                    <p> </p>
+                    <span style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/15/15874.png" alt="Phone" style="width:16px; height:16px;">
+                        +923445153406
+                    </span>
+                    <p> </p>
+                    <p> </p>
+                    <p> </p>
+                    <p> </p>
+                    <span style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/732/732223.png" alt="Email" style="width:16px; height:16px;">
+                        uschools.pk@gmail.com
+                    </span>
+                </div>
+
+                <!-- Address Line -->
+                <div style="font-size: 15px; color: #b7b1b1;">
+                    Address : Unique school system, Main Lehtrar road , Punigran , Islamabad , Pakistan.
+                </div>
+            </div>
+            <div class="row-actions no-print">
+                <button type="button" class="secondary" onclick="clearForm()">New Student</button>
+                <button type="button" class="secondary" onclick="loadByRoll()">Load Student</button>
+                <button type="button" onclick="saveData()">Save Data</button>
+                <button type="button" class="secondary" onclick="openDonorCard()">Print Donor Card</button>
+                <button type="button" class="secondary" onclick="printCard()">Print Card</button>
+                <input type="file" id="excelUpload" accept=".xlsx,.xls" style="display:none;" />
+                <button type="button" class="secondary" onclick="document.getElementById('excelUpload').click()">
+                    Upload & Merge Excel
+                </button>
+            </div>
+
+            <div id="status-message"></div>
+        </form>
+    </div>
+
+    <div id="files-note" class="muted" style="margin-top:10px; text-align:center;">Checking for Excel and Template files...</div>
+</body>
+
+</html>

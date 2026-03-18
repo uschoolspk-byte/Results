@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Student Result - Unique School System</title>
+    <style>
+        /* Base styles */
+        body {
+            font-family: Calibri, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 5px;
+            color: #111;
+            background: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .print-container {
+            max-width: 840px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border: 1px solid #dcdcdc;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 22px;
+            }
+        }
+
+        .brand .header-img {
+            max-width: 100%;
+            width: 360px;
+            height: auto;
+            display: block;
+            margin: 0 auto 6px;
+        }
+
+        .report-title {
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        @media (min-width: 480px) {
+            .report-title {
+                font-size: 18px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .report-title {
+                font-size: 20px;
+            }
+        }
+
+        .section-heading {
+            font-weight: 700;
+            margin: 10px 0 6px;
+            font-size: 13px;
+        }
+
+        .top {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .top {
+                display: grid;
+                grid-template-columns: 1fr 120px;
+                flex-direction: row;
+                gap: 20px;
+            }
+        }
+
+        .photo {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #111;
+            background: #0b5a7a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 480px) {
+            .photo {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .photo {
+                width: 120px;
+                height: 120px;
+                margin: 0;
+            }
+        }
+
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        @media (min-width: 480px) {
+            .grid2 {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px 14px;
+                font-size: 13px;
+            }
+        }
+
+        .kv {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            border-bottom: 1px dotted #eee;
+            padding-bottom: 2px;
+            align-items: center;
+        }
+
+        @media (min-width: 480px) {
+            .kv {
+                display: grid;
+                grid-template-columns: 110px 1fr;
+                border-bottom: none;
+                padding-bottom: 0;
+                justify-content: flex-start;
+            }
+        }
+
+        .kv label {
+            font-size: 11px;
+            color: #666;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .kv span {
+            font-size: 13px;
+            color: #333;
+            text-align: right;
+        }
+
+        @media (min-width: 480px) {
+            .kv label {
+                font-size: 12px;
+            }
+
+            .kv span {
+                text-align: left;
+                border-bottom: 1px dotted #777;
+                padding: 2px 4px;
+            }
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+
+        table.card {
+            width: 100%;
+            min-width: 320px;
+            border-collapse: collapse;
+            font-size: 11px;
+            border: 1px solid #111;
+        }
+
+        @media (min-width: 480px) {
+            table.card {
+                font-size: 13px;
+                border: 2px solid #111;
+            }
+        }
+
+        table.card th,
+        table.card td {
+            border: 1px solid #777;
+            padding: 4px;
+            text-align: center;
+        }
+
+        @media (min-width: 480px) {
+
+            table.card th,
+            table.card td {
+                padding: 8px;
+            }
+        }
+
+        table.card thead th {
+            background: #f5f5f5;
+            border-bottom: 2px solid #111;
+        }
+
+        .failed-subject {
+            background-color: #ffebee !important;
+            color: #c62828 !important;
+            font-weight: 600;
+        }
+
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            color: #b7b1b1;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .contact-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .contact-line {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+                font-size: 14px;
+            }
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .contact-item img {
+            width: 14px;
+            height: 14px;
+        }
+
+        .address {
+            font-size: 10px;
+        }
+
+        .action-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        @media (min-width: 480px) {
+            .action-btns {
+                flex-direction: row;
+                justify-content: center;
+                gap: 12px;
+                margin-top: 25px;
+                padding-bottom: 30px;
+            }
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                padding: 14px 28px;
+                border-radius: 10px;
+                font-size: 16px;
+            }
+        }
+
+        .print-btn {
+            background: #1a3e6f;
+            color: white;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .print-btn:hover {
+            background: #0e2a4a;
+            transform: translateY(-1px);
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #c00;
+            font-size: 18px;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+
+            .container {
+                padding: 10px 8px;
+                border: none;
+                border-radius: 0;
+            }
+
+            .top {
+                flex-direction: column-reverse;
+                gap: 15px;
+            }
+
+            .photo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .grid2 {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .kv {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px dotted #ddd;
+                padding: 4px 0;
+            }
+
+            .kv label {
+                margin-bottom: 0;
+                font-size: 11px;
+            }
+
+            .kv span {
+                text-align: right;
+                font-size: 12px;
+                border-bottom: none;
+                padding: 0;
+            }
+
+            .table-responsive {
+                border: none;
+                margin-top: 10px;
+            }
+
+            table.card {
+                font-size: 10px;
+            }
+
+            table.card th,
+            table.card td {
+                padding: 3px;
+            }
+
+            .contact-line {
+                font-size: 10px;
+                gap: 10px;
+            }
+
+            .contact-item img {
+                width: 12px;
+                height: 12px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .report-title {
+                font-size: 14px;
+            }
+
+            .kv label {
+                font-size: 10px;
+            }
+
+            .kv span {
+                font-size: 11px;
+            }
+
+            table.card {
+                font-size: 9px;
+            }
+        }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0 !important;
+            }
+
+            html,
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                overflow: visible !important;
+                background: white !important;
+            }
+
+            .print-container {
+                max-width: none !important;
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .container {
+                border: none !important;
+                padding: 0 12mm !important;
+                margin: 0 auto !important;
+                width: 186mm !important;
+                max-width: none !important;
+                box-sizing: border-box !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+            }
+
+            .no-print,
+            .action-btns {
+                display: none !important;
+            }
+
+            .table-responsive {
+                overflow: visible !important;
+                border: none !important;
+            }
+
+            table.card {
+                border: 2px solid #111 !important;
+                background: transparent !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                font-size: 13px !important;
+            }
+
+            table.card th {
+                background: #f5f5f5 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            table.card th,
+            table.card td {
+                border: 1px solid #111 !important;
+                padding: 6px 8px !important;
+            }
+
+            .top {
+                display: grid !important;
+                grid-template-columns: 1fr 120px !important;
+                gap: 14px !important;
+                align-items: start !important;
+            }
+
+            .grid2 {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 6px 14px !important;
+            }
+
+            .kv {
+                display: grid !important;
+                grid-template-columns: 110px 1fr !important;
+                border-bottom: none !important;
+                padding-bottom: 0 !important;
+                justify-content: flex-start !important;
+                text-align: left !important;
+            }
+
+            .kv label {
+                font-size: 12px !important;
+                color: #000 !important;
+            }
+
+            .kv span {
+                text-align: left !important;
+                border-bottom: 1px dotted #777 !important;
+                padding: 2px 4px !important;
+                font-size: 13px !important;
+            }
+
+            .photo {
+                width: 120px !important;
+                height: 120px !important;
+                margin: 0 !important;
+            }
+
+            .footer {
+                position: relative !important;
+                opacity: 1 !important;
+                color: #b7b1b1 !important;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="print-container">
+        <div id="loading" class="loading">
+            <div style="margin-bottom: 15px;">Loading result...</div>
+        </div>
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="resultContainer" style="display: none;">
+            <div class="container">
+                <div class="brand">
+                    <img src="Picture1.jpg" alt="School Header" class="header-img" id="schoolHeader">
+                </div>
+                <div class="report-title">Progress Report</div>
+
+                <div class="section-heading">Student Info:</div>
+                <hr style="background: #000; height: 1px; border: none; margin: 0 0 12px 0;">
+
+                <div class="top">
+                    <div class="grid2">
+                        <div class="kv"><label>USS ID:</label><span id="displayRoll"></span></div>
+                        <div class="kv"><label>Student Name:</label><span id="displayName"></span></div>
+                        <div class="kv"><label>Class:</label><span id="displayClass"></span></div>
+                        <div class="kv"><label>Session:</label><span id="displaySession"></span></div>
+                        <div class="kv"><label>Term:</label><span id="displayTerm"></span></div>
+                        <div class="kv"><label>Admission Date:</label><span id="displayAdmissionDate"></span></div>
+                    </div>
+                    <div class="photo">
+                        <img id="photoPreview" alt="Student Photo" onerror="this.style.display='none'; document.getElementById('no-photo').style.display='block';">
+                        <span id="no-photo" style="display: none;">No Photo</span>
+                    </div>
+                </div>
+
+                <div class="report-title" style="margin-top: 15px;">Scores</div>
+
+                <div class="table-responsive">
+                    <table class="card">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">S.NO</th>
+                                <th>Subjects</th>
+                                <th style="width: 100px;">Total</th>
+                                <th style="width: 100px;">Obtained</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectsTbody"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td><strong>Total</strong></td>
+                                <td id="displayTotalMax"></td>
+                                <td id="displayTotalObtained"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="grid2" style="margin-top: 15px;">
+                    <div class="kv"><label>Percentage:</label><span id="displayPercentage"></span></div>
+                    <div class="kv"><label>Grade:</label><span id="displayGrade"></span></div>
+                </div>
+
+                <div class="kv" style="margin-top: 15px; display: flex; justify-content: flex-start; gap: 8px; border-bottom: none;">
+                    <label style="margin-bottom: 0; white-space: nowrap;">Remarks:</label>
+                    <span id="displayRemarks" style="border-bottom: 1px dotted #777; flex-grow: 1; padding-bottom: 2px; font-size: 14px; min-height: 20px;"></span>
+                </div>
+
+
+
+                <div class="footer">
+                    <div class="contact-line">
+                        <span class="contact-item">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1280px-Facebook_f_logo_%282019%29.svg.png" alt="FB">
+                            /Uniqueschoolsystem1
+                        </span>
+                        <span class="contact-item">
+                            <img src="https://cdn-icons-png.flaticon.com/512/15/15874.png" alt="Phone">
+                            +923445153406
+                        </span>
+                        <span class="contact-item">
+                            <img src="https://cdn-icons-png.flaticon.com/512/732/732223.png" alt="Email">
+                            uschools.pk@gmail.com
+                        </span>
+                    </div>
+                    <div class="address">
+                        Address: Unique school system, Main Lehtrar road, Punigran, Islamabad, Pakistan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-btns no-print">
+                <button class="btn print-btn" onclick="printOfficial()">
+                    <span>🖨️</span> Print Official Result
+                </button>
+                <a href="student-search.html" class="btn back-btn">
+                    <span>🔍</span> New Search
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const MARKS = {
+            1: {
+                default: 50,
+                Nazra: 20
+            },
+            2: {
+                default: 50,
+                Nazra: 20
+            },
+            3: {
+                default: 50,
+                Nazra: 20
+            },
+            4: {
+                default: 50,
+                Nazra: 20
+            },
+            5: {
+                default: 50,
+                Nazra: 20
+            },
+            6: {
+                default: 50,
+                Nazra: 20
+            },
+            7: {
+                default: 50,
+                Nazra: 20
+            },
+            8: {
+                default: 50,
+                Physics: 50,
+                Chemistry: 50,
+                Computer: 50,
+                PakistanStudies: 50,
+                Islamiat: 50,
+                Tarjama: 50
+            },
+            9: {
+                default: 50,
+                Physics: 50,
+                Chemistry: 50,
+                Computer: 50,
+                PakistanStudies: 50,
+                Islamiat: 50,
+                Tarjama: 50
+            },
+            10: {
+                default: 50,
+                Physics: 50,
+                Chemistry: 50,
+                Computer: 50,
+                PakistanStudies: 50,
+                Islamiat: 50
+            },
+            11: {
+                default: 50,
+                PakistanStudies: 50,
+                Islamiat: 50,
+                Tarjama: 50
+            }
+        };
+
+        let fetchedTotals = null;
+        let currentRoll = '';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        currentRoll = urlParams.get('roll');
+
+        if (!currentRoll) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('error').textContent = 'No roll number provided';
+        } else {
+            fetchResult(currentRoll);
+        }
+
+        async function fetchTotals(className) {
+            try {
+                const res = await fetch(`/totals/${encodeURIComponent(className)}`);
+                if (res.ok) fetchedTotals = await res.json();
+            } catch (e) {
+                console.error('Error fetching totals:', e);
+            }
+        }
+
+        function getSubjectConfig(classInput) {
+            const classStr = String(classInput).trim();
+            const num = parseInt(classStr);
+            const marks = MARKS[num] || {
+                default: 50
+            };
+
+            if (["Prep", "KG-II", "Nursery", "P.G", "K.G-II", "0"].includes(classStr)) {
+                return [{
+                        display: "English (Oral)",
+                        field: "EnglishOral",
+                        max: 20
+                    },
+                    {
+                        display: "English (Written)",
+                        field: "English",
+                        max: 30
+                    },
+                    {
+                        display: "Math (Oral)",
+                        field: "MathOral",
+                        max: 20
+                    },
+                    {
+                        display: "Math (Written)",
+                        field: "Math",
+                        max: 30
+                    },
+                    {
+                        display: "Urdu (Oral)",
+                        field: "UrduOral",
+                        max: 20
+                    },
+                    {
+                        display: "Urdu (Written)",
+                        field: "Urdu",
+                        max: 30
+                    },
+                    {
+                        display: "General Knowledge",
+                        field: "GeneralKnowledge",
+                        max: 10
+                    },
+                    {
+                        display: "Drawing",
+                        field: "Drawing",
+                        max: 20
+                    },
+                    {
+                        display: "Quran Pak",
+                        field: "Nazra",
+                        max: 20
+                    }
+                ];
+            }
+
+            if (num >= 1 && num <= 7) {
+                const base = [{
+                        display: "English",
+                        field: "English",
+                        max: marks.default
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: marks.default
+                    },
+                    {
+                        display: "Mathematics",
+                        field: "Math",
+                        max: marks.default
+                    }
+                ];
+                if (num <= 3) {
+                    base.unshift({
+                        display: "Nazra",
+                        field: "Nazra",
+                        max: marks.Nazra || 50
+                    });
+                    base.push({
+                        display: "Computer",
+                        field: "Computer",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "General Knowledge",
+                        field: "GeneralKnowledge",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "Islamiat",
+                        field: "Islamiat",
+                        max: marks.default
+                    });
+                } else if (num <= 5) {
+                    base.unshift({
+                        display: "Nazra",
+                        field: "Nazra",
+                        max: marks.Nazra || 50
+                    });
+                    base.push({
+                        display: "Computer",
+                        field: "Computer",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "Science",
+                        field: "Science",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "Social Studies",
+                        field: "Sst",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "Islamiat",
+                        field: "Islamiat",
+                        max: marks.default
+                    });
+                } else {
+                    base.push({
+                        display: "Science",
+                        field: "Science",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "Computer",
+                        field: "Computer",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "Geography",
+                        field: "Geography",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "Islamiat",
+                        field: "Islamiat",
+                        max: marks.default
+                    });
+                    base.push({
+                        display: "Nazra",
+                        field: "Nazra",
+                        max: marks.Nazra || 50
+                    });
+                }
+                return base;
+            }
+
+            if (classStr.toLowerCase().includes("art")) {
+                const config = [{
+                        display: "English",
+                        field: "English",
+                        max: marks.default
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: marks.default
+                    },
+                    {
+                        display: "Genral Math",
+                        field: "GenralMath",
+                        max: marks.default
+                    },
+                    {
+                        display: "Genral Science",
+                        field: "GenralScience",
+                        max: marks.default
+                    },
+                    {
+                        display: "Islamiat Elective",
+                        field: "IslamiatElective",
+                        max: marks.default
+                    },
+                    {
+                        display: "Homecnomics",
+                        field: "Homeconomics",
+                        max: marks.default
+                    }
+                ];
+                if (num === 8 || num === 9) {
+                    config.push({
+                        display: "Islamiat",
+                        field: "Islamiat",
+                        max: marks.Islamiat || 50
+                    });
+                    config.push({
+                        display: "Tarjama-tul-Quran",
+                        field: "Tarjama",
+                        max: marks.Tarjama || 50
+                    });
+                } else if (num === 10) {
+                    config.push({
+                        display: "Pakistan Studies",
+                        field: "PakistanStudies",
+                        max: marks.PakistanStudies || marks.default
+                    });
+                }
+                return config;
+            }
+
+            if (num === 8 || num === 9 || num === 10) {
+                const config = [{
+                        display: "English",
+                        field: "English",
+                        max: marks.default
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: marks.default
+                    },
+                    {
+                        display: "Mathematics",
+                        field: "Math",
+                        max: marks.default
+                    },
+                    {
+                        display: "Computer/Biology",
+                        field: "Computer",
+                        max: marks.Computer || marks.default
+                    },
+                    {
+                        display: "Chemistry",
+                        field: "Chemistry",
+                        max: marks.Chemistry || marks.default
+                    },
+                    {
+                        display: "Physics",
+                        field: "Physics",
+                        max: marks.Physics || marks.default
+                    }
+                ];
+                if (num === 8 || num === 9) {
+                    config.push({
+                        display: "Islamiat",
+                        field: "Islamiat",
+                        max: marks.Islamiat || 50
+                    });
+                    config.push({
+                        display: "Tarjama-tul-Quran",
+                        field: "Tarjama",
+                        max: marks.Tarjama || 50
+                    });
+                } else if (num === 10) {
+                    config.push({
+                        display: "Pakistan Studies",
+                        field: "PakistanStudies",
+                        max: marks.PakistanStudies || marks.default
+                    });
+                }
+                return config;
+            }
+
+            return [{
+                    display: "English",
+                    field: "English",
+                    max: marks.default
+                },
+                {
+                    display: "Urdu",
+                    field: "Urdu",
+                    max: marks.default
+                },
+                {
+                    display: "Mathematics",
+                    field: "Math",
+                    max: marks.default
+                },
+                {
+                    display: "Science",
+                    field: "Science",
+                    max: marks.default
+                },
+                {
+                    display: "Islamiat",
+                    field: "Islamiat",
+                    max: marks.default
+                }
+            ];
+        }
+
+        async function fetchResult(roll) {
+            try {
+                const response = await fetch(`/student/${encodeURIComponent(roll)}`);
+                if (!response.ok) throw new Error('Student not found');
+                const studentData = await response.json();
+                if (studentData.Class) await fetchTotals(studentData.Class);
+                displayResult(studentData);
+            } catch (err) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').textContent = err.message;
+            }
+        }
+
+        function displayResult(s) {
+            document.getElementById('displayRoll').textContent = s.roll || s.RollNo || '-';
+            document.getElementById('displayName').textContent = s.Name || '-';
+            document.getElementById('displayClass').textContent = s.Class || '-';
+            document.getElementById('displaySession').textContent = s.Session || '-';
+            document.getElementById('displayTerm').textContent = s.Term || '-';
+            document.getElementById('displayAdmissionDate').textContent = s.AdmissionDate || '-';
+            document.getElementById('displayRemarks').textContent = s.Remarks || '-';
+
+            if (s.ImagePath) {
+                document.getElementById('photoPreview').src = s.ImagePath;
+                document.getElementById('photoPreview').style.display = 'block';
+                document.getElementById('no-photo').style.display = 'none';
+            }
+
+            const subjects = getSubjectConfig(s.Class);
+            const tbody = document.getElementById('subjectsTbody');
+            tbody.innerHTML = '';
+            let tMax = 0,
+                tObt = 0;
+            let passedAll = true;
+
+            subjects.forEach((sub, i) => {
+                let max = sub.max;
+                if (fetchedTotals && fetchedTotals[sub.field]) max = Number(fetchedTotals[sub.field]);
+                let obt = s[sub.field] || '-';
+                let obtNum = parseFloat(obt);
+                if (!isNaN(obtNum)) {
+                    tObt += obtNum;
+                    const isFailed = (obtNum / max) * 100 < 40;
+                    if (isFailed) passedAll = false;
+                    const tr = document.createElement('tr');
+                    if (isFailed) tr.className = 'failed-subject';
+                    tr.innerHTML = `<td>${i+1}</td><td>${sub.display}</td><td>${max}</td><td>${obtNum}</td>`;
+                    tbody.appendChild(tr);
+                } else {
+                    const tr = document.createElement('tr');
+                    if (obt.toUpperCase() === 'A') {
+                        tr.className = 'failed-subject';
+                        passedAll = false;
+                    }
+                    tr.innerHTML = `<td>${i+1}</td><td>${sub.display}</td><td>${max}</td><td>${obt}</td>`;
+                    tbody.appendChild(tr);
+                }
+                tMax += max;
+            });
+
+            document.getElementById('displayTotalMax').textContent = tMax;
+            document.getElementById('displayTotalObtained').textContent = tObt;
+
+            const perc = tMax > 0 ? ((tObt / tMax) * 100).toFixed(2) : 0;
+            document.getElementById('displayPercentage').textContent = perc + '%';
+
+            let grade = 'F';
+            const p = parseFloat(perc);
+            if (passedAll) {
+                if (p >= 80) grade = 'A+';
+                else if (p >= 70) grade = 'A';
+                else if (p >= 60) grade = 'B';
+                else if (p >= 50) grade = 'C';
+                else if (p >= 40) grade = 'D';
+            } else {
+                grade = 'F';
+            }
+            document.getElementById('displayGrade').textContent = grade;
+
+            // Apply saved footer position from index.html if exists
+            const footer = document.querySelector('.footer');
+            if (footer) {
+                const savedPos = localStorage.getItem('footerPosition');
+                if (savedPos) {
+                    try {
+                        const pos = JSON.parse(savedPos);
+                        if (pos.marginTop) footer.style.marginTop = pos.marginTop;
+                        if (pos.marginLeft) footer.style.marginLeft = pos.marginLeft;
+                        if (pos.marginRight) footer.style.marginRight = pos.marginRight;
+                    } catch (e) {
+                        console.error('Error applying footer position:', e);
+                    }
+                }
+            }
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'block';
+        }
+
+        function printOfficial() {
+            // Using a hidden iframe to print index.html version without leaving this page
+            const existingFrame = document.getElementById('print-iframe');
+            if (existingFrame) existingFrame.remove();
+
+            const iframe = document.createElement('iframe');
+            iframe.id = 'print-iframe';
+            iframe.style.display = 'none';
+            iframe.src = `index.html?roll=${encodeURIComponent(currentRoll)}&mode=print`;
+            document.body.appendChild(iframe);
+
+            // The iframe will automatically trigger print due to mode=print parameter
+            // but we'll remove it after some time to keep DOM clean
+            setTimeout(() => {
+                if (document.getElementById('print-iframe')) {
+                    // We don't remove it immediately because print dialog is modal and blocking in some browsers
+                    // and might need the frame to stay alive.
+                }
+            }, 10000);
+        }
+    </script>
+</body>
+
+</html>

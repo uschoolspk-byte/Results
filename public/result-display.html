@@ -361,127 +361,90 @@
             }
 
             .container {
-                padding: 12px 10px;
+                padding: 10px 8px;
                 border: none;
                 border-radius: 0;
             }
 
             .top {
-                display: flex;
-                flex-direction: column;
+                flex-direction: column-reverse;
                 gap: 15px;
-                align-items: center;
-            }
-
-            .grid2 {
-                order: 1;
-                /* Details first */
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
             }
 
             .photo {
-                order: 2;
-                /* Photo below details */
-                width: 120px;
-                height: 120px;
-                margin: 10px auto;
-                border: 2px solid #1a3e6f;
-                border-radius: 8px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                width: 100px;
+                height: 100px;
+            }
+
+            .grid2 {
+                grid-template-columns: 1fr;
+                gap: 5px;
             }
 
             .kv {
                 display: flex;
                 justify-content: space-between;
-                border-bottom: 1px solid #f0f0f0;
-                padding: 6px 0;
-                align-items: center;
+                border-bottom: 1px dotted #ddd;
+                padding: 4px 0;
             }
 
             .kv label {
                 margin-bottom: 0;
-                font-size: 12px;
-                color: #555;
-                font-weight: 600;
+                font-size: 11px;
             }
 
             .kv span {
                 text-align: right;
-                font-size: 13px;
-                font-weight: 500;
-                color: #111;
+                font-size: 12px;
                 border-bottom: none;
                 padding: 0;
             }
 
-            .report-title {
-                font-size: 18px;
-                color: #1a3e6f;
-                margin: 12px 0;
-            }
-
-            .section-heading {
-                font-size: 14px;
-                margin-bottom: 8px;
-                color: #333;
-            }
-
             .table-responsive {
-                border: 1px solid #eee;
-                border-radius: 8px;
-                margin-top: 15px;
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-            }
-
-            table.card {
-                font-size: 11px;
-            }
-
-            table.card th,
-            table.card td {
-                padding: 6px 4px;
-            }
-
-            .contact-line {
-                font-size: 11px;
-                gap: 12px;
-            }
-
-            .btn {
-                padding: 12px 20px;
-                font-size: 14px;
-                width: 100%;
-                /* Full width buttons on mobile */
-            }
-        }
-
-        @media (max-width: 320px) {
-            .container {
-                padding: 10px 6px;
-            }
-
-            .report-title {
-                font-size: 16px;
-            }
-
-            .kv label {
-                font-size: 11px;
-            }
-
-            .kv span {
-                font-size: 12px;
+                border: none;
+                margin-top: 10px;
             }
 
             table.card {
                 font-size: 10px;
             }
 
-            .photo {
-                width: 100px;
-                height: 100px;
+            table.card th,
+            table.card td {
+                padding: 3px;
+            }
+
+            .contact-line {
+                font-size: 10px;
+                gap: 10px;
+            }
+
+            .contact-item img {
+                width: 12px;
+                height: 12px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .report-title {
+                font-size: 14px;
+            }
+
+            .kv label {
+                font-size: 10px;
+            }
+
+            .kv span {
+                font-size: 11px;
+            }
+
+            table.card {
+                font-size: 9px;
             }
         }
 

@@ -365,43 +365,67 @@
             }
 
             .container {
-                padding: 10px 8px;
+                padding: 12px 10px !important;
                 border: none;
                 border-radius: 0;
+                background: #fff;
+            }
+
+            .section-heading {
+                font-size: 14px !important;
+                font-weight: 700 !important;
+                color: #1a3e6f !important;
+                margin-bottom: 8px !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.5px !important;
             }
 
             .top {
-                flex-direction: column-reverse;
-                gap: 15px;
-            }
-
-            .photo {
-                width: 100px;
-                height: 100px;
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+                margin-bottom: 15px !important;
             }
 
             .grid2 {
-                grid-template-columns: 1fr;
-                gap: 5px;
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 6px !important;
+            }
+
+            .photo {
+                width: 90px !important;
+                height: 90px !important;
+                flex-shrink: 0 !important;
+                margin: 0 !important;
+                border: 1px solid #1a3e6f !important;
+                border-radius: 6px !important;
+                background: #f9f9f9 !important;
             }
 
             .kv {
-                display: flex;
-                justify-content: space-between;
-                border-bottom: 1px dotted #ddd;
-                padding: 4px 0;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                border-bottom: 1px solid #f0f0f0 !important;
+                padding: 2px 0 !important;
+                gap: 2px !important;
             }
 
             .kv label {
-                margin-bottom: 0;
-                font-size: 11px;
+                font-size: 10px !important;
+                color: #666 !important;
+                margin-bottom: 0 !important;
             }
 
             .kv span {
-                text-align: right;
-                font-size: 12px;
-                border-bottom: none;
-                padding: 0;
+                text-align: left !important;
+                font-size: 11px !important;
+                font-weight: 600 !important;
+                color: #111 !important;
+                padding: 0 !important;
             }
 
             .table-responsive {
@@ -440,6 +464,43 @@
             .btn {
                 padding: 10px 15px;
                 font-size: 13px;
+            }
+
+            /* Center align Summary and Remarks on Android */
+            .result-summary .kv {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 5px;
+                border-bottom: none;
+            }
+
+            .result-summary .kv span {
+                text-align: center;
+                border-bottom: 1px dotted #777;
+                width: 80%;
+                padding-bottom: 2px;
+            }
+
+            .remarks-container {
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                gap: 10px !important;
+            }
+
+            .remarks-container label {
+                font-size: 14px !important;
+            }
+
+            .remarks-container span {
+                text-align: center !important;
+                width: 90%;
+            }
+
+            tfoot tr td:last-child {
+                text-align: center !important;
+                font-weight: bold;
             }
         }
 
@@ -635,12 +696,12 @@
                     </table>
                 </div>
 
-                <div class="grid2" style="margin-top: 15px;">
+                <div class="grid2 result-summary" style="margin-top: 15px;">
                     <div class="kv"><label>Percentage:</label><span id="displayPercentage"></span></div>
                     <div class="kv"><label>Grade:</label><span id="displayGrade"></span></div>
                 </div>
 
-                <div class="kv" style="margin-top: 15px; display: flex; justify-content: flex-start; gap: 8px; border-bottom: none;">
+                <div class="kv remarks-container" style="margin-top: 15px; display: flex; justify-content: flex-start; gap: 8px; border-bottom: none;">
                     <label style="margin-bottom: 0; white-space: nowrap;">Remarks:</label>
                     <span id="displayRemarks" style="border-bottom: 1px dotted #777; flex-grow: 1; padding-bottom: 2px; font-size: 14px; min-height: 20px;"></span>
                 </div>

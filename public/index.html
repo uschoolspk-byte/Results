@@ -664,12 +664,12 @@
                     },
                     {
                         display: "Genral Math",
-                        field: "GenralMath",
+                        field: "Math",
                         max: marks.default
                     },
                     {
                         display: "Genral Science",
-                        field: "GenralScience",
+                        field: "Science",
                         max: marks.default
                     },
                     {
@@ -903,7 +903,7 @@
                 }
 
                 let obtained = '';
-                if (studentData && studentData[sub.field] !== undefined && studentData[sub.field] !== '') {
+                if (studentData && studentData[sub.field] !== undefined && studentData[sub.field] !== null && studentData[sub.field] !== '') {
                     const value = String(studentData[sub.field]).trim();
                     // Only show 'A' if explicitly marked 'A' in Excel (case-insensitive)
                     if (value.toUpperCase() === 'A') {
@@ -913,6 +913,8 @@
                         const numVal = Number(value);
                         obtained = Number.isFinite(numVal) ? numVal : value;
                     }
+                } else if (studentData && (studentData[sub.field] === 0 || studentData[sub.field] === '0')) {
+                    obtained = '0';
                 }
                 // If field is empty in Excel, keep it empty (don't show 'A')
 
@@ -960,7 +962,7 @@
             const rows = Array.from(document.querySelectorAll('table.card tbody tr'));
             let obtainedTotal = 0,
                 maxTotal = 0;
-            let passedAll = true;
+            let failedSubjectsCount = 0;
 
             rows.slice(0, -1).forEach(tr => {
                 const capInput = tr.querySelector('td:nth-child(3) input');
@@ -991,7 +993,7 @@
 
                 if (cap > 0) {
                     const subjPerc = (clamped / cap) * 100;
-                    if (subjPerc < 40) passedAll = false;
+                    if (subjPerc < 40) failedSubjectsCount++;
                 }
             });
 
@@ -1003,14 +1005,13 @@
             document.getElementById('Percentage').value = percentage.toFixed(2);
 
             let grade = 'F';
-            if (passedAll) {
+            // Allow failing in up to 1 subject to still get a grade based on percentage
+            if (failedSubjectsCount <= 1) {
                 if (percentage >= 80) grade = 'A+';
                 else if (percentage >= 70) grade = 'A';
                 else if (percentage >= 60) grade = 'B';
                 else if (percentage >= 50) grade = 'C';
-                else if (percentage >= 40 && percentage <= 49) grade = 'D';
-
-
+                else if (percentage >= 40) grade = 'D';
             } else {
                 grade = 'F';
             }

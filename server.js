@@ -105,6 +105,16 @@ function findStudentPhoto(roll) {
     return null;
 }
 
+function formatExcelDate(serial) {
+    if (!serial || isNaN(serial) || typeof serial !== 'number') return serial;
+    // Excel dates are days since 1899-12-30
+    const date = new Date(Math.round((serial - 25569) * 86400 * 1000));
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth() + 1;
+    const year = date.getUTCFullYear();
+    return `${day}/${month}/${year}`;
+}
+
 function ensureExcel() {
     if (!fs.existsSync(DATA_PATH)) {
         const wb = XLSX.utils.book_new();
@@ -171,7 +181,11 @@ app.get('/totals/:className', (req, res) => {
         const mappedRow = {};
         Object.keys(row).forEach(excelKey => {
             const frontKey = EXCEL_TO_FRONTEND[excelKey] || excelKey;
-            mappedRow[frontKey] = row[excelKey];
+            let val = row[excelKey];
+            if (frontKey === 'AdmissionDate' && typeof val === 'number') {
+                val = formatExcelDate(val);
+            }
+            mappedRow[frontKey] = val;
         });
 
         res.json(mappedRow);
@@ -219,7 +233,11 @@ app.get('/student/:roll', (req, res) => {
     const frontendData = {};
     Object.keys(student).forEach(excelKey => {
         const frontKey = EXCEL_TO_FRONTEND[excelKey] || excelKey;
-        frontendData[frontKey] = student[excelKey];
+        let val = student[excelKey];
+        if (frontKey === 'AdmissionDate' && typeof val === 'number') {
+            val = formatExcelDate(val);
+        }
+        frontendData[frontKey] = val;
     });
 
     const photoPath = findStudentPhoto(roll);

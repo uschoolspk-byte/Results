@@ -1201,17 +1201,17 @@
             tbody.innerHTML = '';
             let tMax = 0,
                 tObt = 0;
-            let passedAll = true;
+            let failedSubjectsCount = 0;
 
             subjects.forEach((sub, i) => {
                 let max = sub.max;
                 if (fetchedTotals && fetchedTotals[sub.field]) max = Number(fetchedTotals[sub.field]);
-                let obt = s[sub.field] || '-';
+                let obt = (s[sub.field] === 0 || s[sub.field] === '0') ? '0' : (s[sub.field] || '-');
                 let obtNum = parseFloat(obt);
                 if (!isNaN(obtNum)) {
                     tObt += obtNum;
                     const isFailed = (obtNum / max) * 100 < 40;
-                    if (isFailed) passedAll = false;
+                    if (isFailed) failedSubjectsCount++;
                     const tr = document.createElement('tr');
                     if (isFailed) tr.className = 'failed-subject';
                     tr.innerHTML = `<td>${i+1}</td><td>${sub.display}</td><td>${max}</td><td>${obtNum}</td>`;
@@ -1220,7 +1220,7 @@
                     const tr = document.createElement('tr');
                     if (obt.toUpperCase() === 'A') {
                         tr.className = 'failed-subject';
-                        passedAll = false;
+                        failedSubjectsCount++;
                     }
                     tr.innerHTML = `<td>${i+1}</td><td>${sub.display}</td><td>${max}</td><td>${obt}</td>`;
                     tbody.appendChild(tr);
@@ -1236,7 +1236,8 @@
 
             let grade = 'F';
             const p = parseFloat(perc);
-            if (passedAll) {
+            // Allow failing in up to 1 subject to still get a grade based on percentage
+            if (failedSubjectsCount <= 1) {
                 if (p >= 80) grade = 'A+';
                 else if (p >= 70) grade = 'A';
                 else if (p >= 60) grade = 'B';

@@ -1210,7 +1210,7 @@
                 let obtNum = parseFloat(obt);
                 if (!isNaN(obtNum)) {
                     tObt += obtNum;
-                    const isFailed = (obtNum / max) * 100 < 40;
+                    const isFailed = (obtNum / max) * 100 < 33;
                     if (isFailed) failedSubjectsCount++;
                     const tr = document.createElement('tr');
                     if (isFailed) tr.className = 'failed-subject';
@@ -1242,7 +1242,7 @@
                 else if (p >= 70) grade = 'A';
                 else if (p >= 60) grade = 'B';
                 else if (p >= 50) grade = 'C';
-                else if (p >= 40) grade = 'D';
+                else if (p >= 33) grade = 'D';
             } else {
                 grade = 'F';
             }

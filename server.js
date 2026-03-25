@@ -58,6 +58,7 @@ const EXCEL_TO_FRONTEND = {
     'Total': 'Total',
     'Percentage': 'Percentage',
     'Grade': 'Grade',
+    'Position': 'Position',
     'Geography': 'Geography',
     'English': 'English',
     'Math': 'Math',

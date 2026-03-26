@@ -991,7 +991,7 @@
                 }
                 return config;
             }
-            if (classStr === "Tehfeez-ul-Quran") {
+            if (classStr === "Tehfeez-ul-Quran" || classStr === "Tehfeez ul Quran (1st)" || classStr === "Tehfeez ul Quran (2nd)" || classStr === "Tehfeez ul Quran (3rd)" || classStr === "Tehfeez ul Quran (4th)" || classStr === "Tehfeez ul Quran (5th)" || classStr === "Tehfeez ul Quran (6th)" || classStr === "Tehfeez ul Quran (7th)" || classStr === "Tehfeez ul Quran (8th)" || classStr === "Tehfeez ul Quran (9th)" || classStr === "Tehfeez ul Quran (10th)" || classStr === "Tehfeez ul Quran (11th)") {
                 return [{
                         display: "English",
                         field: "English",
@@ -1007,11 +1007,7 @@
                         field: "Math",
                         max: 100
                     },
-                    {
-                        display: "Quraan Pak",
-                        field: "Nazra",
-                        max: 50
-                    },
+
                     {
                         display: "Tajveed",
                         field: "Tajveed",
@@ -1199,7 +1195,7 @@
                 obtainedTotal += clamped;
                 if (cap > 0) {
                     const subjPerc = (clamped / cap) * 100;
-                    if (subjPerc < 33) failedSubjectsCount++;
+                    if (subjPerc < 40) failedSubjectsCount++;
                 }
             });
             document.getElementById('MaxMarks').value = maxTotal;
@@ -1213,7 +1209,7 @@
                 else if (percentage >= 70) grade = 'A';
                 else if (percentage >= 60) grade = 'B';
                 else if (percentage >= 50) grade = 'C';
-                else if (percentage >= 33) grade = 'D';
+                else if (percentage >= 40) grade = 'D';
             } else {
                 grade = 'F';
             }

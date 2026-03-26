@@ -786,7 +786,6 @@
             </div>
 
             <div class="action-btns no-print">
-
                 <a href="student-search.html" class="btn back-btn">
                     <span>🔍</span> New Search
                 </a>
@@ -795,6 +794,7 @@
     </div>
 
     <script>
+        // === TOTAL MARKS PER CLASS ===
         const MARKS = {
             1: {
                 default: 50,
@@ -872,12 +872,21 @@
             fetchResult(currentRoll);
         }
 
-        async function fetchTotals(className) {
+        async function fetchTotals(classInput) {
+            if (!classInput) {
+                fetchedTotals = null;
+                return;
+            }
             try {
-                const res = await fetch(`/totals/${encodeURIComponent(className)}`);
-                if (res.ok) fetchedTotals = await res.json();
+                const res = await fetch(`/totals/${encodeURIComponent(classInput)}`);
+                if (res.ok) {
+                    fetchedTotals = await res.json();
+                } else {
+                    fetchedTotals = null;
+                }
             } catch (e) {
                 console.error('Error fetching totals:', e);
+                fetchedTotals = null;
             }
         }
 
@@ -885,9 +894,10 @@
             const classStr = String(classInput).trim();
             const num = parseInt(classStr);
             const marks = MARKS[num] || {
-                default: 50
+                default: 75
             };
 
+            // Pre-K and Playgroup
             if (["Prep", "KG-II", "Nursery", "P.G", "K.G-II", "0"].includes(classStr)) {
                 return [{
                         display: "English (Oral)",
@@ -937,8 +947,92 @@
                 ];
             }
 
+            // Classes 1–7
             if (num >= 1 && num <= 7) {
-                const base = [{
+                if (num <= 3) {
+                    return [{
+                            display: "Nazra",
+                            field: "Nazra",
+                            max: 50
+                        },
+                        {
+                            display: "English",
+                            field: "English",
+                            max: marks.default
+                        },
+                        {
+                            display: "Urdu",
+                            field: "Urdu",
+                            max: marks.default
+                        },
+                        {
+                            display: "Mathematics",
+                            field: "Math",
+                            max: marks.default
+                        },
+                        {
+                            display: "Computer",
+                            field: "Computer",
+                            max: marks.default
+                        },
+                        {
+                            display: "General Knowledge",
+                            field: "GeneralKnowledge",
+                            max: marks.default
+                        },
+                        {
+                            display: "Islamiat",
+                            field: "Islamiat",
+                            max: marks.default
+                        },
+
+                    ];
+                }
+                if (num <= 5) {
+                    return [{
+                            display: "Nazra",
+                            field: "Nazra",
+                            max: 50
+                        },
+                        {
+                            display: "English",
+                            field: "English",
+                            max: marks.default
+                        },
+                        {
+                            display: "Urdu",
+                            field: "Urdu",
+                            max: marks.default
+                        },
+                        {
+                            display: "Mathematics",
+                            field: "Math",
+                            max: marks.default
+                        },
+                        {
+                            display: "Computer",
+                            field: "Computer",
+                            max: marks.default
+                        },
+                        {
+                            display: "Science",
+                            field: "Science",
+                            max: marks.default
+                        },
+                        {
+                            display: "Social Studies",
+                            field: "Sst",
+                            max: marks.default
+                        },
+                        {
+                            display: "Islamiat",
+                            field: "Islamiat",
+                            max: marks.default
+                        },
+
+                    ];
+                }
+                return [{
                         display: "English",
                         field: "English",
                         max: marks.default
@@ -952,85 +1046,36 @@
                         display: "Mathematics",
                         field: "Math",
                         max: marks.default
-                    }
-                ];
-                if (num <= 3) {
-                    base.unshift({
-                        display: "Nazra",
-                        field: "Nazra",
-                        max: marks.Nazra || 50
-                    });
-                    base.push({
-                        display: "Computer",
-                        field: "Computer",
-                        max: marks.default
-                    });
-                    base.push({
-                        display: "General Knowledge",
-                        field: "GeneralKnowledge",
-                        max: marks.default
-                    });
-                    base.push({
-                        display: "Islamiat",
-                        field: "Islamiat",
-                        max: marks.default
-                    });
-                } else if (num <= 5) {
-                    base.unshift({
-                        display: "Nazra",
-                        field: "Nazra",
-                        max: marks.Nazra || 50
-                    });
-                    base.push({
-                        display: "Computer",
-                        field: "Computer",
-                        max: marks.default
-                    });
-                    base.push({
+                    },
+                    {
                         display: "Science",
                         field: "Science",
                         max: marks.default
-                    });
-                    base.push({
-                        display: "Social Studies",
-                        field: "Sst",
-                        max: marks.default
-                    });
-                    base.push({
-                        display: "Islamiat",
-                        field: "Islamiat",
-                        max: marks.default
-                    });
-                } else {
-                    base.push({
-                        display: "Science",
-                        field: "Science",
-                        max: marks.default
-                    });
-                    base.push({
+                    },
+                    {
                         display: "Computer",
                         field: "Computer",
                         max: marks.default
-                    });
-                    base.push({
+                    },
+                    {
                         display: "Geography",
                         field: "Geography",
                         max: marks.default
-                    });
-                    base.push({
+                    },
+                    {
                         display: "Islamiat",
                         field: "Islamiat",
                         max: marks.default
-                    });
-                    base.push({
+                    },
+                    {
                         display: "Nazra",
                         field: "Nazra",
-                        max: marks.Nazra || 50
-                    });
-                }
-                return base;
+                        max: 50
+                    },
+                ];
             }
 
+            // Arts Group - Grade 8, 9, 10
             if (classStr.toLowerCase().includes("art")) {
                 const config = [{
                         display: "English",
@@ -1044,12 +1089,12 @@
                     },
                     {
                         display: "Genral Math",
-                        field: "GenralMath",
+                        field: "Math",
                         max: marks.default
                     },
                     {
                         display: "Genral Science",
-                        field: "GenralScience",
+                        field: "Science",
                         max: marks.default
                     },
                     {
@@ -1061,13 +1106,14 @@
                         display: "Homecnomics",
                         field: "Homeconomics",
                         max: marks.default
-                    }
+                    },
                 ];
+
                 if (num === 8 || num === 9) {
                     config.push({
                         display: "Islamiat",
                         field: "Islamiat",
-                        max: marks.Islamiat || 50
+                        max: marks.Islamiat || marks.default
                     });
                     config.push({
                         display: "Tarjama-tul-Quran",
@@ -1075,6 +1121,7 @@
                         max: marks.Tarjama || 50
                     });
                 } else if (num === 10) {
+
                     config.push({
                         display: "Pakistan Studies",
                         field: "PakistanStudies",
@@ -1084,6 +1131,7 @@
                 return config;
             }
 
+            // Science Group - Grade 8, 9, 10
             if (num === 8 || num === 9 || num === 10) {
                 const config = [{
                         display: "English",
@@ -1114,13 +1162,14 @@
                         display: "Physics",
                         field: "Physics",
                         max: marks.Physics || marks.default
-                    }
+                    },
                 ];
+
                 if (num === 8 || num === 9) {
                     config.push({
                         display: "Islamiat",
                         field: "Islamiat",
-                        max: marks.Islamiat || 50
+                        max: marks.Islamiat || marks.default
                     });
                     config.push({
                         display: "Tarjama-tul-Quran",
@@ -1136,8 +1185,75 @@
                 }
                 return config;
             }
+            if (classStr === "Tehfeez-ul-Quran" || classStr === "Tehfeez ul Quran (1st)" || classStr === "Tehfeez ul Quran (2nd)" || classStr === "Tehfeez ul Quran (3rd)" || classStr === "Tehfeez ul Quran (4th)" || classStr === "Tehfeez ul Quran (5th)" || classStr === "Tehfeez ul Quran (6th)" || classStr === "Tehfeez ul Quran (7th)" || classStr === "Tehfeez ul Quran (8th)" || classStr === "Tehfeez ul Quran (9th)" || classStr === "Tehfeez ul Quran (10th)" || classStr === "Tehfeez ul Quran (11th)") {
+                return [{
+                        display: "English",
+                        field: "English",
+                        max: 50
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: 50
+                    },
+                    {
+                        display: "Mathematics",
+                        field: "Math",
+                        max: 100
+                    },
 
-            return [{
+                    {
+                        display: "Tajveed",
+                        field: "Tajveed",
+                        max: 50
+                    },
+                ];
+            }
+
+            // Class 11 (overriding previous fallback for 11)
+            if (classStr === "11" || classStr === "12") {
+                return [{
+                        display: "English",
+                        field: "English",
+                        max: marks.default
+                    },
+                    {
+                        display: "Urdu",
+                        field: "Urdu",
+                        max: marks.default
+                    },
+                    {
+                        display: "Mathematics",
+                        field: "Math",
+                        max: marks.default
+                    },
+                    {
+                        display: "Computer",
+                        field: "Computer",
+                        max: marks.default
+                    },
+                    {
+                        display: "Statistics",
+                        field: "Statistics",
+                        max: marks.default
+                    },
+
+                    {
+                        display: "Islamiat",
+                        field: "Islamiat",
+                        max: marks.Islamiat || 50
+                    },
+                    {
+                        display: "Tarjama-tul-Quran",
+                        field: "Tarjama",
+                        max: marks.Tarjama || 50
+                    }
+
+                ];
+            }
+
+            // Default / fallback (for any other class)
+            const config = [{
                     display: "English",
                     field: "English",
                     max: marks.default
@@ -1148,21 +1264,43 @@
                     max: marks.default
                 },
                 {
-                    display: "Mathematics",
-                    field: "Math",
+                    display: "Genral Math",
+                    field: "GenralMath",
                     max: marks.default
                 },
                 {
-                    display: "Science",
-                    field: "Science",
+                    display: "Genral Science",
+                    field: "GenralScience",
+                    max: marks.default
+                },
+                {
+                    display: "Islamiat Elective",
+                    field: "IslamiatElective",
+                    max: marks.default
+                },
+                {
+                    display: "Homecnomics",
+                    field: "Homeconomics",
                     max: marks.default
                 },
                 {
                     display: "Islamiat",
                     field: "Islamiat",
-                    max: marks.default
-                }
+                    max: marks.Islamiat || marks.default
+                },
             ];
+            if (num <= 9) config.push({
+                display: "Tarjama-tul-Quran",
+                field: "Tarjama",
+                max: marks.Tarjama || 50
+            });
+            if (num > 9) config.push({
+                display: "Pakistan Studies",
+                field: "PakistanStudies",
+                max: marks.PakistanStudies || marks.default
+            });
+
+            return config;
         }
 
         async function fetchResult(roll) {
@@ -1200,30 +1338,48 @@
             let tMax = 0,
                 tObt = 0;
             let failedSubjectsCount = 0;
+            let hasAbsent = false;
 
-            subjects.forEach((sub, i) => {
+            // First pass: count failed subjects and check for absent
+            const subjectDataList = subjects.map((sub) => {
                 let max = sub.max;
                 if (fetchedTotals && fetchedTotals[sub.field]) max = Number(fetchedTotals[sub.field]);
                 let obt = (s[sub.field] === 0 || s[sub.field] === '0') ? '0' : (s[sub.field] || '-');
                 let obtNum = parseFloat(obt);
+                let isFailed = false;
+                let isAbsent = false;
+
                 if (!isNaN(obtNum)) {
-                    tObt += obtNum;
-                    const isFailed = (obtNum / max) * 100 < 33;
-                    if (isFailed) failedSubjectsCount++;
-                    const tr = document.createElement('tr');
-                    if (isFailed) tr.className = 'failed-subject';
-                    tr.innerHTML = `<td>${i+1}</td><td>${sub.display}</td><td>${max}</td><td>${obtNum}</td>`;
-                    tbody.appendChild(tr);
-                } else {
-                    const tr = document.createElement('tr');
-                    if (obt.toUpperCase() === 'A') {
-                        tr.className = 'failed-subject';
-                        failedSubjectsCount++;
-                    }
-                    tr.innerHTML = `<td>${i+1}</td><td>${sub.display}</td><td>${max}</td><td>${obt}</td>`;
-                    tbody.appendChild(tr);
+                    isFailed = (obtNum / max) * 100 < 40;
+                } else if (String(obt).toUpperCase() === 'A') {
+                    isFailed = true;
+                    isAbsent = true;
+                    hasAbsent = true;
                 }
+
+                if (isFailed) failedSubjectsCount++;
                 tMax += max;
+                if (!isNaN(obtNum)) tObt += obtNum;
+
+                return {
+                    sub,
+                    max,
+                    obt,
+                    obtNum,
+                    isFailed,
+                    isAbsent
+                };
+            });
+
+            // Second pass: render rows
+            subjectDataList.forEach((item, i) => {
+                const tr = document.createElement('tr');
+                // Only show red/bold if more than one failed subject
+                if (item.isFailed && failedSubjectsCount > 1) {
+                    tr.className = 'failed-subject';
+                }
+                tr.innerHTML = `<td>${i+1}</td><td>${item.sub.display}</td><td>${item.max}</td><td>${item.obt}</td>`;
+                tbody.appendChild(tr);
             });
 
             document.getElementById('displayTotalMax').textContent = tMax;
@@ -1235,15 +1391,21 @@
             let grade = 'F';
             const p = parseFloat(perc);
             // Allow failing in up to 1 subject to still get a grade based on percentage
-            if (failedSubjectsCount <= 1) {
+            if (failedSubjectsCount <= 1 && !hasAbsent) {
                 if (p >= 80) grade = 'A+';
                 else if (p >= 70) grade = 'A';
                 else if (p >= 60) grade = 'B';
                 else if (p >= 50) grade = 'C';
-                else if (p >= 33) grade = 'D';
+                else if (p >= 40) grade = 'D';
             } else {
                 grade = 'F';
             }
+
+            if (hasAbsent) {
+                grade = 'F';
+                document.getElementById('displayRemarks').textContent = "Failed due to Being Absent";
+            }
+
             document.getElementById('displayGrade').textContent = grade;
 
             // Apply saved footer position from index.html if exists

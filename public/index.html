@@ -453,6 +453,7 @@
         };
 
         let fetchedTotals = null;
+        let absentChoice = null; // Track user choice for absent students (null, 'F', or 'Real')
 
         async function fetchTotals(classInput) {
             if (!classInput) {
@@ -670,12 +671,12 @@
                         max: marks.default
                     },
                     {
-                        display: "General Math",
+                        display: "Genral Math",
                         field: "Math",
                         max: marks.default
                     },
                     {
-                        display: "General Science",
+                        display: "Genral Science",
                         field: "Science",
                         max: marks.default
                     },
@@ -767,7 +768,7 @@
                 }
                 return config;
             }
-            if (classStr === "Tehfeez-ul-Quran") {
+            if (classStr === "Tehfeez-ul-Quran" || classStr === "Tehfeez ul Quran (1st)" || classStr === "Tehfeez ul Quran (2nd)" || classStr === "Tehfeez ul Quran (3rd)" || classStr === "Tehfeez ul Quran (4th)" || classStr === "Tehfeez ul Quran (5th)" || classStr === "Tehfeez ul Quran (6th)" || classStr === "Tehfeez ul Quran (7th)" || classStr === "Tehfeez ul Quran (8th)" || classStr === "Tehfeez ul Quran (9th)" || classStr === "Tehfeez ul Quran (10th)" || classStr === "Tehfeez ul Quran (11th)") {
                 return [{
                         display: "English",
                         field: "English",
@@ -783,11 +784,7 @@
                         field: "Math",
                         max: 100
                     },
-                    {
-                        display: "Nazra",
-                        field: "Nazra",
-                        max: 50
-                    },
+                   
                     {
                         display: "Tajveed",
                         field: "Tajveed",
@@ -850,13 +847,13 @@
                     max: marks.default
                 },
                 {
-                    display: "General Math",
-                    field: "GeneralMath",
+                    display: "Genral Math",
+                    field: "GenralMath",
                     max: marks.default
                 },
                 {
-                    display: "General Science",
-                    field: "GeneralScience",
+                    display: "Genral Science",
+                    field: "GenralScience",
                     max: marks.default
                 },
                 {
@@ -954,6 +951,7 @@
         }
 
         async function clearForm() {
+            absentChoice = null; // Reset choice for new student
             document.getElementById('card-form').reset();
             document.getElementById('photoPreview').src = '';
             const classNum = document.getElementById('Class').value;
@@ -970,6 +968,7 @@
             let obtainedTotal = 0,
                 maxTotal = 0;
             let failedSubjectsCount = 0;
+            let hasAbsent = false;
 
             rows.slice(0, -1).forEach(tr => {
                 const capInput = tr.querySelector('td:nth-child(3) input');
@@ -983,6 +982,7 @@
                     // If value is 'A' (case-insensitive) or empty, treat as absent (0 marks)
                     if (inputValue.toUpperCase() === 'A' || inputValue === '') {
                         val = 0;
+                        if (inputValue.toUpperCase() === 'A') hasAbsent = true;
                         // Don't change empty to 'A' - allow manual editing
                     } else {
                         val = Number(inputValue);
@@ -1000,7 +1000,7 @@
 
                 if (cap > 0) {
                     const subjPerc = (clamped / cap) * 100;
-                    if (subjPerc < 33) failedSubjectsCount++;
+                    if (subjPerc < 40) failedSubjectsCount++;
                 }
             });
 
@@ -1018,15 +1018,33 @@
                 else if (percentage >= 70) grade = 'A';
                 else if (percentage >= 60) grade = 'B';
                 else if (percentage >= 50) grade = 'C';
-                else if (percentage >= 33) grade = 'D';
+                else if (percentage >= 40) grade = 'D';
             } else {
                 grade = 'F';
+            }
+
+            // --- Absent Logic ---
+            if (hasAbsent) {
+                if (absentChoice === null) {
+                    // Ask user choice only once when 'A' is detected
+                    const choice = confirm("This student is marked 'Absent' (A) in one or more subjects.\n\nClick 'OK' to mark the Grade as 'F'.\nClick 'Cancel' to use the real grade according to marks.");
+                    absentChoice = choice ? 'F' : 'Real';
+                }
+
+                if (absentChoice === 'F') {
+                    grade = 'F';
+                }
+                // If choice is 'Real', we keep the calculated grade
+            } else {
+                // Reset if no 'A' is present
+                absentChoice = null;
             }
 
             document.getElementById('Grade').value = grade;
         }
 
         async function loadByRoll() {
+            absentChoice = null; // Reset choice when loading new student
             const roll = document.getElementById('RollNo').value.trim();
             if (!roll) {
                 alert('Please enter USIS ID / Roll No first');

@@ -1350,7 +1350,7 @@
                 let isAbsent = false;
 
                 if (!isNaN(obtNum)) {
-                    isFailed = (obtNum / max) * 100 < 40;
+                    isFailed = (obtNum / max) * 100 < 33;
                 } else if (String(obt).toUpperCase() === 'A') {
                     isFailed = true;
                     isAbsent = true;
@@ -1396,7 +1396,7 @@
                 else if (p >= 70) grade = 'A';
                 else if (p >= 60) grade = 'B';
                 else if (p >= 50) grade = 'C';
-                else if (p >= 40) grade = 'D';
+                else if (p >= 33) grade = 'D';
             } else {
                 grade = 'F';
             }
